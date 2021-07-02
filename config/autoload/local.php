@@ -13,4 +13,14 @@
  */
 
 return [
+    'service_manager' => [
+        'services' => [
+            'model-adapter-config' => [
+                'driver' => 'PDO',
+                'dsn' => 'mysql:host=it-webdb01.midnet.cityofmiddletown.com;dbname=inspections_dev',
+                'username' => 'inspections',
+                'password' => 'YA13HKxvYxIM6DHx96ce',
+            ],
+        ],
+    ],
 ];

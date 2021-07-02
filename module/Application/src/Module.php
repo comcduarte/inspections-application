@@ -6,6 +6,9 @@ namespace Application;
 
 class Module
 {
+    const TITLE = 'Inspections';
+    const VERSION = '1.0';
+    
     public function getConfig(): array
     {
         /** @var array $config */

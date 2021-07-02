@@ -22,4 +22,12 @@ return [
     'Laminas\Validator',
     'Laminas\DeveloperTools',
     'Application',
+    'Acl',
+    'Annotation',
+    'Components',
+    'Files',
+    'Report',
+    'Settings',
+    'User',
+    'Inspection',
 ];
