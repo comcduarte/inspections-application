@@ -6,6 +6,7 @@ use Laminas\ServiceManager\Factory\FactoryInterface;
 use Inspection\Controller\InspectionController;
 use Inspection\Model\InspectionModel;
 use Inspection\Form\InspectionForm;
+use Files\Model\FilesModel;
 
 class InspectionControllerFactory implements FactoryInterface
 {
@@ -17,6 +18,8 @@ class InspectionControllerFactory implements FactoryInterface
         $model = new InspectionModel($adapter);
         
         $controller->setDbAdapter($adapter);  
+        $controller->setFiles(new FilesModel());
+        $controller->getFiles()->setDbAdapter($adapter);
         $controller->setModel($model);
         $controller->setForm($form);
         return $controller;

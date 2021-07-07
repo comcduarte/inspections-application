@@ -5,6 +5,10 @@ use Components\Form\AbstractBaseForm;
 use Components\Form\Element\DatabaseSelect;
 use Laminas\Db\Adapter\AdapterAwareTrait;
 use Laminas\Form\Element\Text;
+use Laminas\Form\Fieldset;
+use Laminas\Form\Element\Checkbox;
+use Inspection\Model\PurposeModel;
+use Inspection\Model\ResponseModel;
 
 class InspectionForm extends AbstractBaseForm
 {
@@ -13,6 +17,24 @@ class InspectionForm extends AbstractBaseForm
     public function init()
     {
         parent::init();
+        
+        $purposes = new Fieldset('Purposes');
+        $purposes->setLabel('My Purposes');
+        $purposes->add([
+            'name' => 'Hello',
+            'type' => Checkbox::class,
+            'options' => [
+                'label' => 'Hello',
+            ],
+        ]);
+        
+        $purposes->add([
+            'name' => 'World',
+            'type' => Checkbox::class,
+            'options' => [
+                'label' => 'World',
+            ],
+        ]);
         
         $this->add([
             'name' => 'USER',
@@ -25,12 +47,13 @@ class InspectionForm extends AbstractBaseForm
             ],
             'options' => [
                 'label' => 'User',
+                'empty_option' => '--- Unassigned ---',
                 'database_adapter' => $this->adapter,
                 'database_table' => 'users',
                 'database_id_column' => 'UUID',
                 'database_value_columns' => [
-                    'FNAME',
                     'LNAME',
+                    'FNAME',
                 ],
             ],
         ],['priority' => 100]);
@@ -60,8 +83,9 @@ class InspectionForm extends AbstractBaseForm
             ],
             'options' => [
                 'label' => 'PURPOSE',
+                'empty_option' => '--- Unassigned ---',
                 'database_adapter' => $this->adapter,
-                'database_table' => 'inspections_purposes',
+                'database_table' => PurposeModel::TABLENAME,
                 'database_id_column' => 'UUID',
                 'database_value_columns' => [
                     'NAME',
@@ -80,13 +104,16 @@ class InspectionForm extends AbstractBaseForm
             ],
             'options' => [
                 'label' => 'RESPONSE',
+                'empty_option' => '--- Unassigned ---',
                 'database_adapter' => $this->adapter,
-                'database_table' => 'inspections_responses',
+                'database_table' => ResponseModel::TABLENAME,
                 'database_id_column' => 'UUID',
                 'database_value_columns' => [
                     'NAME',
                 ],
             ],
         ],['priority' => 100]);
+        
+        $this->add($purposes);
     }
 }

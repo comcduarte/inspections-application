@@ -18,6 +18,10 @@ class InspectionConfigController extends AbstractConfigController
         $ddl = [];
         
         $ddl[] = new DropTable('inspections');
+        $ddl[] = new DropTable('inspections_purposes');
+        $ddl[] = new DropTable('inspections_responses');
+        $ddl[] = new DropTable(\Inspection\Model\ResponseModel::TABLENAME);
+        $ddl[] = new DropTable(\Inspection\Model\PurposeModel::TABLENAME);
         
         foreach ($ddl as $obj) {
             $this->adapter->query($sql->buildSqlString($obj), $this->adapter::QUERY_MODE_EXECUTE);
@@ -49,9 +53,9 @@ class InspectionConfigController extends AbstractConfigController
         unset($ddl);
         
         /******************************
-         * INSPECTIONS_PURPOSES
+         * PURPOSES
          ******************************/
-        $ddl = new CreateTable('inspections_purposes');
+        $ddl = new CreateTable(\Inspection\Model\PurposeModel::TABLENAME);
         
         $ddl->addColumn(new Varchar('UUID', 36));
         $ddl->addColumn(new Integer('STATUS', TRUE));
@@ -66,9 +70,23 @@ class InspectionConfigController extends AbstractConfigController
         unset($ddl);
         
         /******************************
-         * INSPECTIONS_RESPONSES
+         * INSPECTION PURPOSES
          ******************************/
-        $ddl = new CreateTable('inspections_responses');
+        $ddl = new CreateTable('inspections_purposes');
+        
+        $ddl->addColumn(new Varchar('UUID', 36));
+        $ddl->addColumn(new Varchar('INSPECTION_UUID', 36));
+        $ddl->addColumn(new Varchar('PURPOSE_UUID', 36));
+        
+        $ddl->addConstraint(new PrimaryKey('UUID'));
+        
+        $this->adapter->query($sql->buildSqlString($ddl), $this->adapter::QUERY_MODE_EXECUTE);
+        unset($ddl);
+        
+        /******************************
+         * RESPONSES
+         ******************************/
+        $ddl = new CreateTable(\Inspection\Model\ResponseModel::TABLENAME);
         
         $ddl->addColumn(new Varchar('UUID', 36));
         $ddl->addColumn(new Integer('STATUS', TRUE));
@@ -76,6 +94,20 @@ class InspectionConfigController extends AbstractConfigController
         $ddl->addColumn(new Datetime('DATE_MODIFIED', TRUE));
         
         $ddl->addColumn(new Varchar('NAME', 255, TRUE));
+        
+        $ddl->addConstraint(new PrimaryKey('UUID'));
+        
+        $this->adapter->query($sql->buildSqlString($ddl), $this->adapter::QUERY_MODE_EXECUTE);
+        unset($ddl);
+        
+        /******************************
+         * INSPECTION RESPONSES
+         ******************************/
+        $ddl = new CreateTable('inspections_responses');
+        
+        $ddl->addColumn(new Varchar('UUID', 36));
+        $ddl->addColumn(new Varchar('INSPECTION_UUID', 36));
+        $ddl->addColumn(new Varchar('RESPONSE_UUID', 36));
         
         $ddl->addConstraint(new PrimaryKey('UUID'));
         
