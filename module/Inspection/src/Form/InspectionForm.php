@@ -3,12 +3,10 @@ namespace Inspection\Form;
 
 use Components\Form\AbstractBaseForm;
 use Components\Form\Element\DatabaseSelect;
-use Laminas\Db\Adapter\AdapterAwareTrait;
-use Laminas\Form\Element\Text;
-use Laminas\Form\Fieldset;
-use Laminas\Form\Element\Checkbox;
 use Inspection\Model\PurposeModel;
 use Inspection\Model\ResponseModel;
+use Laminas\Db\Adapter\AdapterAwareTrait;
+use Laminas\Form\Element\Text;
 
 class InspectionForm extends AbstractBaseForm
 {
@@ -17,24 +15,6 @@ class InspectionForm extends AbstractBaseForm
     public function init()
     {
         parent::init();
-        
-        $purposes = new Fieldset('Purposes');
-        $purposes->setLabel('My Purposes');
-        $purposes->add([
-            'name' => 'Hello',
-            'type' => Checkbox::class,
-            'options' => [
-                'label' => 'Hello',
-            ],
-        ]);
-        
-        $purposes->add([
-            'name' => 'World',
-            'type' => Checkbox::class,
-            'options' => [
-                'label' => 'World',
-            ],
-        ]);
         
         $this->add([
             'name' => 'USER',
@@ -113,7 +93,5 @@ class InspectionForm extends AbstractBaseForm
                 ],
             ],
         ],['priority' => 100]);
-        
-        $this->add($purposes);
     }
 }

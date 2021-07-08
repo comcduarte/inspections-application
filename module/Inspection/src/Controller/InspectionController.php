@@ -34,7 +34,7 @@ class InspectionController extends AbstractBaseController
         $select->join(PurposeModel::TABLENAME, "inspections.PURPOSE = ".PurposeModel::TABLENAME.".UUID", ['Purpose'=>'NAME'], Join::JOIN_INNER);
         $select->join(ResponseModel::TABLENAME, "inspections.RESPONSE = ".ResponseModel::TABLENAME.".UUID", ['Response'=>'NAME'], Join::JOIN_INNER);
         $select->where(['inspections.STATUS' => $this->model::ACTIVE_STATUS]);
-        $select->order('inspections.DATE_CREATED ASC');
+        $select->order('inspections.DATE_CREATED DESC');
         
         $statement = $sql->prepareStatementForSqlObject($select);
         $results = $statement->execute();
