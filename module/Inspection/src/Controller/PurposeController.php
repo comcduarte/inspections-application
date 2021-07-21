@@ -14,4 +14,11 @@ class PurposeController extends AbstractBaseController
         $this->form->init();
         return $this;
     }
+    
+    public function indexAction()
+    {
+        $view = parent::indexAction();
+        $view->setTemplate('lists/index');
+        return $view;
+    }
 }

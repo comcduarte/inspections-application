@@ -199,6 +199,7 @@ return [
     'view_manager' => [
         'template_map' => [
             'inspections/update' => __DIR__ . '/../view/inspection/update.phtml',
+            'lists/index' => __DIR__ . '/../view/lists/lists-index.phtml',
         ],
         'template_path_stack' => [
             __DIR__ . '/../view',

@@ -19,7 +19,7 @@
 		"laminas/laminas-test" : "~3.4",
 		"laminas/laminas-mvc-plugins" : "~1.0",
 		"laminas/laminas-navigation" : "~2.11",
-		"laminas/laminas-db" : "~2.12",
+		"laminas/laminas-db" : "2.11",
 		"laminas/laminas-crypt" : "~3.4",
 		"laminas/laminas-session" : "~2.10",
 		"laminas/laminas-form" : "~2.17",
