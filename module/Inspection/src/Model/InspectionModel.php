@@ -15,4 +15,15 @@ class InspectionModel extends AbstractBaseModel
         parent::__construct($adapter);
         $this->setTableName('inspections');
     }
+    
+    public static function retrieveStatus($status)
+    {
+        $statuses = [
+            NULL => 'Inactive',
+            self::INACTIVE_STATUS => 'Resolved',
+            self::ACTIVE_STATUS => 'Open',
+        ];
+        
+        return $statuses[$status];
+    }
 }
