@@ -1,5 +1,7 @@
 <?php
 
+use Application\Controller\CustomReportController;
+
 /**
  * Global Configuration Override
  *
@@ -13,5 +15,9 @@
  */
 
 return [
-    // ...
+    'controllers' => [
+        'aliases' => [
+            'report-controller' => CustomReportController::class,
+        ],
+    ],
 ];

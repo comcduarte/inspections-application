@@ -1,0 +1,51 @@
+<?php
+use Inspection\Entity\InspectionEntity;
+
+global $report_data;
+?>
+<table class="table table-sm">
+	<thead>
+		<tr>
+			<th>Date</th>
+			<th>Date</th>
+			<th>Date</th>
+			<th>Date</th>
+			<th>Date</th>
+			<th>Date</th>
+		</tr>
+	</thead>
+	<tbody>
+		<?php
+		/**
+		 * @var InspectionEntity $inspection
+		 */
+		?>
+		<?php foreach ($this->data as $index => $inspection) : ?>
+		<tr>
+			<td><?=$inspection->INSPECTION->DATE_CREATED ?></td>
+			<td><?=$inspection->INSPECTION->ADDR ?></td>
+			<td><?=$inspection->USER->FNAME ?></td>
+			<td><?=$inspection->USER->LNAME ?></td>
+			<td><?=$inspection->PURPOSE->NAME ?></td>
+			<td><?=$inspection->RESPONSE->NAME ?></td>
+			<td><?=$inspection->INSPECTION->retrieveStatus($inspection->INSPECTION->STATUS) ?></td>
+		</tr>
+		<tr>
+			<td />
+			<td colspan="6">
+				<?php if (sizeof($inspection->NOTES)) : ?>
+    			<?=$this->partial('report/partials/table.phtml', ['data' => $inspection->NOTES]); ?>
+    			<?php endif; ?>
+			</td>
+		</tr>
+		<tr>
+			<td />
+			<td colspan="6">
+				<?php foreach ($inspection->IMAGES as $image) : ?>
+					<img src="/files/view/<?=$image['UUID']; ?>" height="150px" width="150px">
+				<?php endforeach; ?>
+			</td>
+		</tr>
+		<?php endforeach; ?>
+	</tbody>
+</table>

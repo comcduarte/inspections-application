@@ -13,6 +13,8 @@ use Laminas\Router\Http\Literal;
 use Laminas\Router\Http\Segment;
 use Inspection\Form\InspectionForm;
 use Inspection\Form\Factory\InspectionFormFactory;
+use Application\Controller\CustomReportController;
+use Application\Controller\Factory\CustomReportControllerFactory;
 
 return [
     'router' => [
@@ -82,6 +84,8 @@ return [
             InspectionConfigController::class => InspectionConfigControllerFactory::class,
             PurposeController::class => ListControllerFactory::class,
             ResponseController::class => ListControllerFactory::class,
+            CustomReportController::class => CustomReportControllerFactory::class,
+            
         ],
     ],
     'form_elements' => [
