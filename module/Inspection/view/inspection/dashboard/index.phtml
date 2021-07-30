@@ -1,0 +1,113 @@
+<?php
+/**
+ * @var Laminas\View\Renderer\PhpRenderer $this
+ */
+$this->headScript()
+->appendFile('https://cdnjs.cloudflare.com/ajax/libs/flot/0.8.3/jquery.flot.min.js')
+->appendFile('https://cdnjs.cloudflare.com/ajax/libs/flot/0.8.3/excanvas.min.js')
+->appendFile('https://cdnjs.cloudflare.com/ajax/libs/flot/0.8.3/jquery.flot.resize.min.js')
+->appendFile('https://cdnjs.cloudflare.com/ajax/libs/flot/0.8.3/jquery.flot.time.min.js')
+->appendFile('https://cdnjs.cloudflare.com/ajax/libs/flot/0.8.3/jquery.flot.pie.min.js')
+->appendFile('https://cdnjs.cloudflare.com/ajax/libs/flot/0.8.3/jquery.flot.canvas.min.js')
+->appendFile('https://cdnjs.cloudflare.com/ajax/libs/flot/0.8.3/jquery.flot.categories.min.js')
+->appendFile('https://cdnjs.cloudflare.com/ajax/libs/flot/0.8.3/jquery.flot.crosshair.min.js')
+->appendFile('https://cdnjs.cloudflare.com/ajax/libs/flot/0.8.3/jquery.flot.errorbars.min.js')
+->appendFile('https://cdnjs.cloudflare.com/ajax/libs/flot/0.8.3/jquery.flot.fillbetween.min.js')
+->appendFile('https://cdnjs.cloudflare.com/ajax/libs/flot/0.8.3/jquery.flot.navigate.min.js')
+->appendFile('https://cdnjs.cloudflare.com/ajax/libs/flot/0.8.3/jquery.flot.image.min.js')
+->appendFile('https://cdnjs.cloudflare.com/ajax/libs/flot/0.8.3/jquery.flot.stack.min.js')
+->appendFile('https://cdnjs.cloudflare.com/ajax/libs/flot/0.8.3/jquery.flot.symbol.min.js')
+->appendFile('https://cdnjs.cloudflare.com/ajax/libs/flot/0.8.3/jquery.flot.threshold.min.js')
+?>
+<script type="text/javascript">
+    $(function() {
+    	var d1 = [];
+    	var d2 = [];
+    	
+    	<?php 
+    	foreach ($this->statistics as $month => $value) {
+    	    echo "d1.push([$month, $value]);";
+    	}
+    	?>
+        $.plot("#incomechart", [ d1 ]);
+        
+        var d2 = [
+        <?php 
+    	foreach ($this->purposes as $purpose => $value) {
+    	    echo sprintf('{ label: "%s", data: %s},', $purpose, $value);
+    	}
+    	?>
+    	];
+    	
+        $.plot("#purposeratio", d2, {
+        	series: {
+        		pie: {
+        			show: true
+    			}
+			}
+        });
+    });
+</script>
+<div class="card-deck">
+	<div class="card mb-4">
+		<div class="card-header">
+			<h4>Open Tickets over past 12 months</h4>
+		</div>
+		<div class="card-body">
+			<div id="incomechart" style="padding: 0px; height: 320px;">
+				<canvas style="width: 100%; height: 100%;"></canvas>
+			</div>
+		</div>
+	</div>
+	
+	<div class="w-100 d-none d-sm-block d-lg-none"><!-- Wrap every 2 on md --></div>
+	
+	<div class="card mb-4">
+		<div class="card-header">
+			<h4>Purpose Ratio (12 Months)</h4>
+		</div>
+		<div class="card-body">
+			<div id="purposeratio" style="padding: 0px; height: 320px;">
+				<canvas style="width: 100%; height: 100%;"></canvas>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="card-deck">
+    <div class="card">
+        <h2 class="card-header">Step 1: Login</h2>
+        <div class="card-body">
+            <p>
+                Log into the application using the same credentials (username and password) you log into your workstation with.
+            </p>
+        </div>
+        <div class="card-footer">
+        	<a class="btn btn-primary" href="<?php echo $this->url('user/login'); ?>">Login &raquo;</a>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2 class="card-header">Step 2: Inspection</h2>
+        <div class="card-body">
+            <p>
+                Enter your inspections in the log form.  Add additional notes using the tools at the bottom of the form.
+            </p>
+        </div>
+        <div class="card-footer">
+        	<a class="btn btn-primary" href="<?php echo $this->url('inspections/default'); ?>">Inspections &raquo;</a>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2 class="card-header">Help &amp; Support</h2>
+        <div class="card-body">
+            <p>
+                If you are having trouble with your application, please submit a Help Desk Ticket by following the link below.
+            </p>
+        </div>
+        <div class="card-footer">
+        	<a class="btn btn-primary" href="https://kbox.midnet.cityofmiddletown.com/" target="_blank">Submit Ticket &raquo;</a>
+        </div>
+    </div>
+</div>

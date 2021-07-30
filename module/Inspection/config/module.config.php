@@ -1,20 +1,22 @@
 <?php
 namespace Inspection;
 
+use Application\Controller\CustomReportController;
+use Application\Controller\Factory\CustomReportControllerFactory;
+use Inspection\Controller\DashboardController;
 use Inspection\Controller\InspectionConfigController;
 use Inspection\Controller\InspectionController;
 use Inspection\Controller\PurposeController;
 use Inspection\Controller\ResponseController;
+use Inspection\Controller\Factory\DashboardControllerFactory;
 use Inspection\Controller\Factory\InspectionConfigControllerFactory;
 use Inspection\Controller\Factory\InspectionControllerFactory;
 use Inspection\Controller\Factory\ListControllerFactory;
+use Inspection\Form\InspectionForm;
+use Inspection\Form\Factory\InspectionFormFactory;
 use Inspection\Service\Factory\InspectionModelAdapterFactory;
 use Laminas\Router\Http\Literal;
 use Laminas\Router\Http\Segment;
-use Inspection\Form\InspectionForm;
-use Inspection\Form\Factory\InspectionFormFactory;
-use Application\Controller\CustomReportController;
-use Application\Controller\Factory\CustomReportControllerFactory;
 
 return [
     'router' => [
@@ -39,6 +41,17 @@ return [
                             'defaults' => [
                                 'action' => 'index',
                                 'controller' => InspectionConfigController::class,
+                            ],
+                        ],
+                    ],
+                    'dashboard' => [
+                        'type' => Segment::class,
+                        'priority' => 100,
+                        'options' => [
+                            'route' => '/dashboard',
+                            'defaults' => [
+                                'action' => 'index',
+                                'controller' => DashboardController::class,
                             ],
                         ],
                     ],
@@ -67,6 +80,8 @@ return [
     'acl' => [
         'EVERYONE' => [
             'inspections/default' => [],
+            'inspections/lists' => [],
+            'inspections/dashboard' => [],
             'inspections' => [],
         ],
         'admin' => [
@@ -80,12 +95,12 @@ return [
             'response' => ResponseController::class,
         ],
         'factories' => [
+            DashboardController::class => DashboardControllerFactory::class,
             InspectionController::class => InspectionControllerFactory::class,
             InspectionConfigController::class => InspectionConfigControllerFactory::class,
             PurposeController::class => ListControllerFactory::class,
             ResponseController::class => ListControllerFactory::class,
             CustomReportController::class => CustomReportControllerFactory::class,
-            
         ],
     ],
     'form_elements' => [
@@ -95,6 +110,14 @@ return [
     ],
     'navigation' => [
         'default' => [
+            'dashboard' => [
+                'label' => 'Dashboard',
+                'route' => 'inspections/dashboard',
+                'resource' => 'inspections/dashboard',
+                'privilege' => 'index',
+                'action' => 'index',
+                'order' => 1,
+            ],
             'inspections' => [
                 'label' => 'Inspections',
                 'route' => 'inspections/default',
