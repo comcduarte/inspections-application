@@ -3,9 +3,11 @@ namespace Inspection\Form;
 
 use Components\Form\AbstractBaseForm;
 use Components\Form\Element\DatabaseSelect;
+use Inspection\Model\InspectionModel;
 use Inspection\Model\PurposeModel;
 use Inspection\Model\ResponseModel;
 use Laminas\Db\Adapter\AdapterAwareTrait;
+use Laminas\Form\Element\Select;
 use Laminas\Form\Element\Text;
 
 class InspectionForm extends AbstractBaseForm
@@ -93,5 +95,23 @@ class InspectionForm extends AbstractBaseForm
                 ],
             ],
         ],['priority' => 100]);
+        
+        $this->add([
+            'name' => 'STATUS',
+            'type' => Select::class,
+            'attributes' => [
+                'id' => 'STATUS',
+                'class' => 'form-control',
+                'required' => 'true',
+            ],
+            'options' => [
+                'label' => 'Status',
+                'value_options' => [
+                    InspectionModel::ACTIVE_STATUS => InspectionModel::retrieveStatus(InspectionModel::ACTIVE_STATUS),
+                    InspectionModel::INACTIVE_STATUS => InspectionModel::retrieveStatus(InspectionModel::INACTIVE_STATUS),
+                ],
+            ],
+        ],['priority' => 10]);
+            
     }
 }
