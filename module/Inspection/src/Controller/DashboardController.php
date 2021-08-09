@@ -10,6 +10,8 @@ use Laminas\Db\Sql\Where;
 use Laminas\Mvc\Controller\AbstractActionController;
 use Laminas\View\Model\ViewModel;
 use Laminas\Db\Sql\Join;
+use Laminas\Db\Sql\Expression;
+use User\Model\UserModel;
 
 class DashboardController extends AbstractActionController
 {
@@ -69,6 +71,114 @@ class DashboardController extends AbstractActionController
         
         $view->setVariable('statistics', $statistics);
         $view->setVariable('purposes', $purposes);
+        
+        /****************************************
+         * INFO CARDS
+         ****************************************/
+        $date = new \DateTime('first day of this month');
+        $THIS_MONTH = $date->format('Y-m-d H:i:s');
+        
+        $date = new \DateTime('first day of last month');
+        $LAST_MONTH = $date->format('Y-m-d H:i:s');
+        
+        $where = new Where();
+        $where->between('inspections.DATE_CREATED', $LAST_MONTH, $THIS_MONTH);
+        
+        $select = new Select();
+        $select->from($inspection->getTableName());
+        $select->columns(['COUNT' => new Expression('COUNT(*)')]);
+        $select->where($where);
+        
+        $statement = $sql->prepareStatementForSqlObject($select);
+        $results = $statement->execute();
+        $resultSet = new ResultSet($results);
+        $resultSet->initialize($results);
+        $records = $resultSet->toArray();
+        
+        $inspections_last_month = $records[0]['COUNT'];
+        
+        $where = new Where();
+        $where->between('inspections.DATE_CREATED', $THIS_MONTH, $NOW);
+        $select->where($where);
+        
+        $statement = $sql->prepareStatementForSqlObject($select);
+        $results = $statement->execute();
+        $resultSet = new ResultSet($results);
+        $resultSet->initialize($results);
+        $records = $resultSet->toArray();
+        
+        $inspections_this_month = $records[0]['COUNT'];
+        
+        $view->setVariable('inspections_last_month', $inspections_last_month);
+        $view->setVariable('inspections_this_month', $inspections_this_month);
+        
+        /****************************************
+         * INFO CARDS - INSPECTOR OTM
+         ****************************************/
+        $where = new Where();
+        $where->between('inspections.DATE_CREATED', $THIS_MONTH, $NOW);
+        
+        $select = new Select();
+        $select->from($inspection->getTableName());
+        $select->columns(['USER','COUNT' => new Expression('COUNT(inspections.UUID)')]);
+        $select->where($where);
+        $select->group(['inspections.USER']);
+        $select->order(['COUNT DESC']);
+        
+        $statement = $sql->prepareStatementForSqlObject($select);
+        $results = $statement->execute();
+        $resultSet = new ResultSet($results);
+        $resultSet->initialize($results);
+        $records = $resultSet->toArray();
+        
+        $user = new UserModel($this->adapter);
+        if ($records[0]['COUNT'] == $records[1]['COUNT']) {
+            $user->FNAME = 'Tie';
+        } else {
+            $user->read(['UUID' => $records[0]['USER']]);
+        }
+        
+        $view->setVariable('inspector_otm', $user);
+        
+        /****************************************
+         * INFO CARDS - PRIOR WEEK
+         ****************************************/
+        $date = new \DateTime('monday this week');
+        $THIS_WEEK = $date->format('Y-m-d H:i:s');
+        
+        $date = new \DateTime('monday last week');
+        $LAST_WEEK = $date->format('Y-m-d H:i:s');
+        
+        $where = new Where();
+        $where->between('inspections.DATE_CREATED', $LAST_WEEK, $THIS_WEEK);
+        
+        $select = new Select();
+        $select->from($inspection->getTableName());
+        $select->columns(['COUNT' => new Expression('COUNT(*)')]);
+        $select->where($where);
+        
+        $statement = $sql->prepareStatementForSqlObject($select);
+        $results = $statement->execute();
+        $resultSet = new ResultSet($results);
+        $resultSet->initialize($results);
+        $records = $resultSet->toArray();
+        
+        $inspections_last_week = $records[0]['COUNT'];
+        
+        $where = new Where();
+        $where->between('inspections.DATE_CREATED', $THIS_WEEK, $NOW);
+        $select->where($where);
+        
+        $statement = $sql->prepareStatementForSqlObject($select);
+        $results = $statement->execute();
+        $resultSet = new ResultSet($results);
+        $resultSet->initialize($results);
+        $records = $resultSet->toArray();
+        
+        $inspections_this_week = $records[0]['COUNT'];
+        
+        $view->setVariable('inspections_last_week', $inspections_last_week);
+        $view->setVariable('inspections_this_week', $inspections_this_week);
         
         return $view;
     }

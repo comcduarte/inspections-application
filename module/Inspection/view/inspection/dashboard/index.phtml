@@ -49,6 +49,39 @@ $this->headScript()
     });
 </script>
 <div class="card-deck">
+	<div class="card mb-4 text-center">
+		<div class="card-body">
+        	<i class="fas fa-chart-area fa-5x float-left"></i>
+        	<div class="card-text">
+        		Inspections<br>
+        		<b class="huge"><?=$this->inspections_last_week ?>/<?=$this->inspections_this_week ?></b><br>
+        		<span class="text-uppercase text-muted">Prior Week Comparison</span>
+        	</div>
+    	</div>
+    </div>
+    <div class="card mb-4 text-center">
+		<div class="card-body">
+        	<i class="fas fa-calendar-alt fa-5x float-left"></i>
+        	<div class="card-text">
+        		Inspections<br>
+        		<b class="huge"><?=$this->inspections_last_month ?>/<?=$this->inspections_this_month ?></b><br>
+        		<span class="text-uppercase text-muted">Prior Month Comparison</span>
+        	</div>
+    	</div>
+    </div>
+    <div class="card mb-4 text-center">
+		<div class="card-body">
+        	<i class="fas fa-user-secret fa-5x float-left"></i>
+        	<div class="card-text">
+        		Inspector of the Month<br>
+        		<b class="huge"><?=$this->inspector_otm->FNAME ?> <?=$this->inspector_otm->LNAME ?></b><br>
+        		<span class="text-uppercase text-muted"></span>
+        	</div>
+    	</div>
+    </div>
+</div>
+
+<div class="card-deck">
 	<div class="card mb-4">
 		<div class="card-header">
 			<h4>Open Tickets over past 12 months</h4>
