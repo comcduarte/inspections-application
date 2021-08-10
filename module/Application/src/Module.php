@@ -7,7 +7,7 @@ namespace Application;
 class Module
 {
     const TITLE = 'Inspections';
-    const VERSION = '1.0';
+    const VERSION = '1.0.3';
     
     public function getConfig(): array
     {
