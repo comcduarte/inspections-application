@@ -2,20 +2,25 @@
 namespace Inspection\Controller;
 
 use Annotation\Traits\AnnotationAwareTrait;
+use Application\ActionMenu\ActionMenu;
 use Components\Controller\AbstractBaseController;
-use Laminas\Db\ResultSet\ResultSet;
-use Laminas\Db\Sql\Select;
-use Laminas\Db\Sql\Sql;
-use Laminas\View\Model\ViewModel;
-use Laminas\Db\Sql\Join;
 use Files\Traits\FilesAwareTrait;
 use Inspection\Model\PurposeModel;
 use Inspection\Model\ResponseModel;
+use Laminas\Box\API\AccessTokenAwareTrait;
+use Laminas\Box\API\Resource\Folder;
+use Laminas\Db\ResultSet\ResultSet;
+use Laminas\Db\Sql\Join;
+use Laminas\Db\Sql\Select;
+use Laminas\Db\Sql\Sql;
+use Laminas\Html\Hyperlink;
+use Laminas\View\Model\ViewModel;
 
 class InspectionController extends AbstractBaseController
 {
     use FilesAwareTrait;
     use AnnotationAwareTrait;
+    use AccessTokenAwareTrait;
     
     public function indexAction()
     {
@@ -28,7 +33,7 @@ class InspectionController extends AbstractBaseController
         $select->columns([
             'UUID' => 'UUID',
             'Address' => 'ADDR',
-            'Date' => 'DATE_CREATED',
+            'Date' => 'DATE',
         ]);
         $select->join('users', 'inspections.USER = users.UUID', ['FNAME', 'LNAME', 'USERNAME'], Join::JOIN_INNER);
         $select->join(PurposeModel::TABLENAME, "inspections.PURPOSE = ".PurposeModel::TABLENAME.".UUID", ['Purpose'=>'NAME'], Join::JOIN_INNER);
@@ -61,6 +66,16 @@ class InspectionController extends AbstractBaseController
         $view->setTemplate('inspections/update');
         
         /****************************************
+         * BOX
+         ****************************************/
+        $view->setVariable('access_token', $this->getAccessToken()->getResponse());
+        
+        $folder = new Folder($this->getAccessToken());
+        $folder->get_folder_information('0');
+        $folder->create_folder('0', $this->model->UUID);
+        
+        
+        /****************************************
          * ANNOTATIONS
          ****************************************/
         $this->annotations_tablename = $this->model->getTableName();
@@ -70,9 +85,9 @@ class InspectionController extends AbstractBaseController
         
         /****************************************
          * FILES
-         ****************************************/
+         ****************************************
         $select = new Select();
-        $select->columns(['UUID','Name' => 'NAME','Date Created' => 'DATE_CREATED']);
+        $select->columns(['UUID','Name' => 'NAME','Size' => 'SIZE']);
         $this->files->setSelect($select);
         $images = $this->files->findFiles($this->model->UUID);
         $title = 'Images';
@@ -81,6 +96,48 @@ class InspectionController extends AbstractBaseController
             'files_reference' => $this->model->UUID,
             'files_title' => $title,
         ]);
+        */
+        
+        $folder_id = '0';
+        $folder = new Folder($this->getAccessToken());
+        $items = $folder->list_items_in_folder('0');
+        foreach ($items->entries as $item ) {
+            if ($item['name'] == $this->model->UUID) {
+                $folder_id = $item['id'];
+            }
+        }
+        
+        $parameters = [
+            'fields' => 'name',
+        ];
+        
+        $items = $folder->list_items_in_folder($folder_id, $parameters);
+        $view->setVariables([
+            'files' => $items->entries,
+            'files_title' => 'Related Files',
+            'files_reference' => $this->model->UUID,
+        ]);
+        
+        $actionMenu = new ActionMenu();
+        
+        $update = new Hyperlink();
+        $update->class = 'dropdown-item';
+        $update->data_url_route = 'box';
+        $update->data_url_params = ['action' => 'view'];
+        $update->data_href_param = 'id';
+        $update->setLabel('View');
+        
+        $delete = new Hyperlink();
+        $delete->class = 'dropdown-item bg-danger text-white';
+        $delete->data_url_route = 'home';
+        $delete->data_url_params = ['action' => 'delete'];
+        $delete->data_href_param = 'id';
+        $delete->setLabel('Delete');
+        
+        $actionMenu->add_menu_item($update);
+//         $actionMenu->add_menu_item($delete);
+        
+        $view->setVariable('actionMenu', $actionMenu);
         
         return $view;
     }

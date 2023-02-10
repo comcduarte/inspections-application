@@ -17,9 +17,16 @@ return [
         'services' => [
             'model-adapter-config' => [
                 'driver' => 'PDO',
-                'dsn' => 'mysql:host=it-webdb01.midnet.cityofmiddletown.com;dbname=inspections_dev',
-                'username' => 'inspections',
-                'password' => 'YA13HKxvYxIM6DHx96ce',
+                'dsn' => 'mysql:host=it-webdb01.midnet.cityofmiddletown.com;dbname=complaints_dev',
+                'username' => 'complaints',
+                'password' => '3U4eREtcIR11F4E6O92T',
+            ],
+            'access-token-config' => [
+                'client_id' => 'k251wtdz16q0dt37mi4lnt6bosa9skh4',
+                'client_secret' => 'wyr1c47Q3iljqdcMyqtD40lAaJhxWHyx',
+                'grant_type' => 'client_credentials',
+                'box_subject_type' => 'enterprise',
+                'box_subject_id' => '563960266',
             ],
         ],
     ],

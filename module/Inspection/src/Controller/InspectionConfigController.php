@@ -5,6 +5,7 @@ use Components\Controller\AbstractConfigController;
 use Laminas\Db\Sql\Sql;
 use Laminas\Db\Sql\Ddl\CreateTable;
 use Laminas\Db\Sql\Ddl\DropTable;
+use Laminas\Db\Sql\Ddl\Column\Date;
 use Laminas\Db\Sql\Ddl\Column\Datetime;
 use Laminas\Db\Sql\Ddl\Column\Integer;
 use Laminas\Db\Sql\Ddl\Column\Varchar;
@@ -44,6 +45,7 @@ class InspectionConfigController extends AbstractConfigController
         
         $ddl->addColumn(new Varchar('USER', 36, TRUE));
         $ddl->addColumn(new Varchar('ADDR', 255, TRUE));
+        $ddl->addColumn(new Date('DATE', TRUE));
         $ddl->addColumn(new Varchar('PURPOSE', 36, TRUE));
         $ddl->addColumn(new Varchar('RESPONSE', 36, TRUE));
         

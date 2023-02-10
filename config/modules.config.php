@@ -21,7 +21,6 @@ return [
     'Laminas\Router',
     'Laminas\Validator',
     'Laminas\DeveloperTools',
-    'Application',
     'Acl',
     'Annotation',
     'Components',
@@ -30,4 +29,5 @@ return [
     'Settings',
     'User',
     'Inspection',
+    'Application',
 ];

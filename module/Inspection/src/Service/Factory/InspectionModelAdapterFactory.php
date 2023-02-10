@@ -1,9 +1,9 @@
 <?php
 namespace Inspection\Service\Factory;
 
-use Interop\Container\ContainerInterface;
 use Laminas\Db\Adapter\Adapter;
 use Laminas\ServiceManager\Factory\FactoryInterface;
+use Psr\Container\ContainerInterface;
 
 class InspectionModelAdapterFactory implements FactoryInterface
 {

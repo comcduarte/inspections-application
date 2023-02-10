@@ -1,0 +1,27 @@
+<a href="" class="btn btn-primary btn-rounded" data-bs-toggle="modal" data-bs-target="#<?=$dialog->getId()?>"><?=$dialog->getTitle()?></a>
+
+<?php $form = $dialog->getForm(); ?>
+<!-- MODAL FORM -->
+<div class="modal fade" id="<?=$dialog->getId()?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+    		<div class="card mb-4">
+            	<div class="card-header d-flex justify-content-between">
+            		<div>
+            			<b><?=$dialog->getTitle()?></b>
+            		</div>
+            	</div>
+            	<div class="card-body">
+            		<?php 
+            		$form->setAttribute('action', $dialog->getRoute());
+            		$form->prepare();
+            		
+            		echo $this->form()->openTag($form);
+            		echo $this->formCollection($form);
+            		echo $this->form()->closeTag($form);
+            		?>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

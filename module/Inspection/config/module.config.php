@@ -8,11 +8,11 @@ use Inspection\Controller\ResponseController;
 use Inspection\Controller\Factory\InspectionConfigControllerFactory;
 use Inspection\Controller\Factory\InspectionControllerFactory;
 use Inspection\Controller\Factory\ListControllerFactory;
+use Inspection\Form\InspectionForm;
+use Inspection\Form\Factory\InspectionFormFactory;
 use Inspection\Service\Factory\InspectionModelAdapterFactory;
 use Laminas\Router\Http\Literal;
 use Laminas\Router\Http\Segment;
-use Inspection\Form\InspectionForm;
-use Inspection\Form\Factory\InspectionFormFactory;
 
 return [
     'router' => [
@@ -95,6 +95,7 @@ return [
                 'label' => 'Inspections',
                 'route' => 'inspections/default',
                 'class' => 'dropdown',
+                'order' => 10,
                 'resource' => 'inspections/default',
                 'action' => 'menu',
                 'privilege' => 'menu',
@@ -118,6 +119,7 @@ return [
                 'label' => 'Table Management',
                 'route' => 'inspections/default',
                 'class' => 'dropdown',
+                'order' => 80,
                 'resource' => 'inspections/tblmgmt',
                 'action' => 'menu',
                 'privilege' => 'menu',
@@ -166,7 +168,7 @@ return [
                             'list' => [
                                 'label' => 'List Response',
                                 'route' => 'inspections/lists',
-                                'resource' => 'inspections/lists',
+                                'resource' => 'inspections/tblmgmt',
                                 'privilege' => 'index',
                                 'controller' => 'response',
                             ],
