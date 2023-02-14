@@ -1,9 +1,9 @@
 <?php
 namespace Inspection\Controller\Factory;
 
-use Interop\Container\ContainerInterface;
-use Laminas\ServiceManager\Factory\FactoryInterface;
 use Inspection\Controller\InspectionConfigController;
+use Laminas\ServiceManager\Factory\FactoryInterface;
+use Psr\Container\ContainerInterface;
 
 class InspectionConfigControllerFactory implements FactoryInterface
 {

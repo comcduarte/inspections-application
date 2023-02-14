@@ -7,6 +7,7 @@ use Inspection\Model\InspectionModel;
 use Inspection\Model\PurposeModel;
 use Inspection\Model\ResponseModel;
 use Laminas\Db\Adapter\AdapterAwareTrait;
+use Laminas\Form\Element\Date;
 use Laminas\Form\Element\Select;
 use Laminas\Form\Element\Text;
 
@@ -51,6 +52,20 @@ class InspectionForm extends AbstractBaseForm
             ],
             'options' => [
                 'label' => 'Address',
+            ],
+        ],['priority' => 100]);
+        
+        $this->add([
+            'name' => 'DATE',
+            'type' => Date::class,
+            'attributes' => [
+                'class' => 'form-control',
+                'id' => 'DATE',
+                'required' => 'true',
+                'placeholder' => '',
+            ],
+            'options' => [
+                'label' => 'Date of Inspection',
             ],
         ],['priority' => 100]);
         

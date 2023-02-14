@@ -16,7 +16,6 @@
 		"laminas/laminas-skeleton-installer" : "^0.3",
 		"laminas/laminas-mvc" : "^3.1.1",
 		"laminas/laminas-developer-tools" : "~2.1",
-		"laminas/laminas-test" : "~3.4",
 		"laminas/laminas-mvc-plugins" : "~1.0",
 		"laminas/laminas-navigation" : "~2.11",
 		"laminas/laminas-db" : "~2.12",
@@ -25,7 +24,9 @@
 		"laminas/laminas-form" : "~2.17",
 		"laminas/laminas-i18n" : "~2.11",
 		"laminas/laminas-permissions-acl" : "~2.8",
-		"laminas/laminas-permissions-rbac" : "~3.1"
+		"laminas/laminas-permissions-rbac" : "~3.1",
+		"comcduarte/laminas-box" : "dev-develop",
+		"comcduarte/laminas-html" : "dev-develop"
 	},
 	"autoload" : {
 		"psr-4" : {
@@ -69,5 +70,14 @@
 		"development-status" : "Detail whether or not the application is in development mode.",
 		"serve" : "Start the built-in PHP web server and serve the application.",
 		"test" : "Run unit tests."
+	},
+	"config" : {
+		"allow-plugins" : {
+			"laminas/laminas-component-installer" : true,
+			"laminas/laminas-skeleton-installer" : true
+		}
+	},
+	"require-dev" : {
+		"laminas/laminas-test" : "4.3.0"
 	}
 }

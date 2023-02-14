@@ -3,7 +3,6 @@ use Laminas\Escaper\Escaper;
 use User\Model\UserModel;
 
 $navHelper = $this->navigation('navigation');
-$iterator = new RecursiveIteratorIterator($this->container, RecursiveIteratorIterator::SELF_FIRST);
 
 if ($user = $this->currentUser()) {
     $roles = [];
@@ -13,8 +12,12 @@ if ($user = $this->currentUser()) {
     }
     $navHelper->setRoles($roles);
 }
+// $navHelper
+//     ->setAcl($this->acl)
+//     ->setRole('admin');
+$iterator = new RecursiveIteratorIterator($this->container, RecursiveIteratorIterator::SELF_FIRST);
 
-$ulClass = "navbar-nav mr-auto";
+$ulClass = "navbar-nav flex-grow-1";
 $liActiveClass = "active";
 $addClassToListItem = TRUE;
 $onlyActive = FALSE;
@@ -37,6 +40,9 @@ if ($found) {
 } else {
     $foundPage = null;
 }
+
+// create iterator
+// $iterator = new RecursiveIteratorIterator($container, RecursiveIteratorIterator::SELF_FIRST);
 
 if (is_int($maxDepth)) {
     $iterator->setMaxDepth($maxDepth);
@@ -113,10 +119,10 @@ foreach ($iterator as $page) {
     $parent = $page->getParent();
 
     if ($page->hasPages() && $depth == 0) {
-        $aClass = ' class="nav-link dropdown-toggle" data-toggle="dropdown"';
+        $aClass = ' class="nav-link dropdown-toggle" data-bs-toggle="dropdown"';
         $caret = '<b class="caret"></b>';
     } elseif ($page->hasPages() && $depth > 0) {
-        $aClass = ' class="dropdown-item dropdown-toggle" data-toggle="dropdown"';
+        $aClass = ' class="dropdown-item dropdown-toggle" data-bs-toggle="dropdown"';
         $caret = '<b class="caret"></b>';
     } elseif (! $page->hasPages() && $depth > 0) {
         $aClass = ' class="dropdown-item"';

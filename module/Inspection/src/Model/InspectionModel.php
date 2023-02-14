@@ -9,6 +9,7 @@ class InspectionModel extends AbstractBaseModel
     public $ADDR;
     public $PURPOSE;
     public $RESPONSE;
+    public $DATE;
     
     public function __construct($adapter)
     {
